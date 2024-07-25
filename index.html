@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login & Register</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: linear-gradient(to right, #6a11cb, #2575fc);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .container {
+                background-color: #fff;
+                width: 300px;
+                padding: 30px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+                display: none;
+            }
+
+            .login,
+            .register {
+                display: none;
+            }
+
+            .active {
+                display: block;
+            }
+
+            h2 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+
+            label {
+                margin: 10px 0 5px;
+            }
+
+            input {
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            button {
+                padding: 10px;
+                background-color: #28a745;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+            .error {
+                width: 100%;
+                margin-top: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-left: 3px solid #db5555;
+                border-radius: 5px;
+                display: none;
+            }
+
+            p {
+                color: #db5555;
+                margin: 0;
+            }
+
+            .switch-link {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .switch-link a {
+                color: #aaa;
+                text-decoration: none;
+                font-size: 15px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container login active">
+            <h2>Login</h2>
+            <div class="error">
+                <p class="erro"></p>
+            </div>
+            <form id="login-form">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" name="username" required>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="pass" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="switch-link">
+                <a href="#" id="switch-to-register">Register here!</a>
+            </div>
+        </div>
+        <div class="container register">
+            <h2>Register</h2>
+            <div class="error">
+                <p class="erro"></p>
+            </div>
+            <form id="register-form">
+                <label for="register-username">Username:</label>
+                <input type="text" id="register-username" name="username" required>
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" name="pass" required>
+                <button type="submit">Register</button>
+            </form>
+            <div class="switch-link">
+                <a href="#" id="switch-to-login">Login here!</a>
+            </div>
+        </div>
+        <script src="msg/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                function showLogin() {
+                    $('.register').removeClass('active');
+                    $('.login').addClass('active');
+                }
+
+                function showRegister() {
+                    $('.login').removeClass('active');
+                    $('.register').addClass('active');
+                }
+
+                $('#switch-to-register').click(function (e) {
+                    e.preventDefault();
+                    showRegister();
+                });
+
+                $('#switch-to-login').click(function (e) {
+                    e.preventDefault();
+                    showLogin();
+                });
+
+                $('#login-form').on('submit', function (e) {
+                    e.preventDefault();
+                    let valid = false;
+                    let username = $('#login-username').val().trim();
+                    let pass = $('#login-password').val().trim();
+
+                    if (pass.length < 6) {
+                        $('.erro').text('Password too short');
+                        $('.error').fadeIn(300, function () {
+                            $(this).fadeOut(6000);
+                        });
+                    } else {
+                        valid = true;
+                    }
+
+                    let data = $(this).serialize();
+
+                    if (valid) {
+                        $.ajax({
+                            type: "post",
+                            url: "php/login.php",
+                            data: data,
+                            success: function (response) {
+                                let res = JSON.parse(response);
+                                if (res.status === 'success') {
+                                    window.location.href = 'msg/v_user.php';
+                                } else {
+                                    $('.erro').text(res.message);
+                                    $('.error').fadeIn(300, function () {
+                                        $(this).fadeOut(6000);
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX Error: ", status, error);
+                                $('.erro').text('An error occurred. Please try again.');
+                                $('.error').fadeIn(300, function () {
+                                    $(this).fadeOut(6000);
+                                });
+                            }
+                        });
+                    }
+                });
+
+
+                $('#register-form').on('submit', function (e) {
+                    e.preventDefault();
+                    let valid = false;
+                    let username = $('#register-username').val().trim();
+                    let pass = $('#register-password').val().trim();
+
+                    if (pass.length < 6) {
+                        $('.erro').text('Password too short');
+                        $('.error').fadeIn(300, function () {
+                            $(this).fadeOut(6000);
+                        });
+                    } else {
+                        valid = true;
+                    }
+
+                    let data = $(this).serialize();
+
+                    if (valid) {
+                        $.ajax({
+                            type: "post",
+                            url: "php/register.php",
+                            data: data,
+                            success: function (response) {
+                                let res = JSON.parse(response);
+                                if (res.status == 'success') {
+                                    showLogin();
+                                } else {
+                                    $('.erro').text(res.message);
+                                    $('.error').fadeIn(300, function () {
+                                        $(this).fadeOut(6000);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+
+                showLogin(); // Show login form by default
+            });
+        </script>
+    </body>
+
+</html>

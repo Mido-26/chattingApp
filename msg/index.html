@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting App</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="../css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+     <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .msg-cont{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .msg-chat{
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 400px;
+            /* height: auto; */
+            height: 70vh;
+            outline: 2px solid;
+            position: relative;
+            top: 0;
+            left: 0;
+            border-radius: 12px;
+            box-shadow: 0 7px 10px rgba(0, 0, 0, 0.3);
+        }
+        .msg-chat header{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            /* padding: 10px; */
+            width: 100%;
+            height: 50px;
+            background-color: #34806d;
+            color: aliceblue;
+            text-transform: capitalize;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 11px 11px 0 0;
+        }
+        .msg-chat main{
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+            top: 50px;
+            bottom: 50px;
+            width: 100%;
+            background-color: rgba(185, 231, 213,0.5);
+            cursor: pointer;
+        }
+        main .day{
+            /* outline: 1px solid black; */
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            /* text-align: center; */
+        }
+        .day p{
+            background-color: #34806d;
+            color: aliceblue;
+            width: fit-content;
+            border-radius: 3px;
+            font-weight: 100;
+            font-size: 10px;
+            height: fit-content;
+            padding: 2px;
+            margin: 5px 0;
+        }
+
+        .receiver{
+            background-color: #34806d;
+            display: flex;
+            width: fit-content;
+            height: fit-content;
+            /* justify-content: flex-start; */
+            align-items: center;
+            /* outline: 1px solid; */
+            margin-left: 5px;
+            padding: 3px;
+            border-radius:0 5px 5px 5px;
+            margin-bottom: 5px;
+        }
+        .receiver p{
+            color: rgb(250, 255, 253);
+            font-family: inherit;
+            font-size: 15px;
+            /* justify-content: flex-end; */
+            align-items: center;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .receiver span{
+            font-size: 10px;
+            color: rgb(207, 194, 194);
+            /* align-items: flex-end; */
+        }
+        .sender{
+            
+            display: flex;
+            width: 95%;
+            height: fit-content;
+            justify-content: flex-end;
+            align-items: center;
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+        .sender p{
+            color: rgb(81, 223, 166);
+            background-color: #fafafa;
+            font-family: inherit;
+            font-size: 15px;
+            align-items: center;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding: 3px;
+            border-radius:5px 0 5px 5px;
+        }
+        .sender span{
+            font-size: 10px;
+            color: rgb(107, 106, 106);
+            /* align-items: flex-end; */
+        }
+
+        .msg-chat footer{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            border: 1px solid black;
+            border-radius: 0 0 11px 11px;
+        }
+        footer{
+            background-color: #fff;
+            color: #34806d;
+            font-family: inherit;
+        }
+
+     </style>
+</head>
+<body>
+    <div class="msg-cont">
+        <div class="msg-chat">
+            <header class="chat-head"> 
+                <img src="#" alt="Profile Image" class="profile-img">
+                <h3 class="chat-name" id="name">mido untouchable</h3>
+            </header>
+            <main class="chat-body">
+                <div class="day">
+                    <p>wednesday</p>
+                </div>
+                <div class="receiver">
+                    <p class="text">
+                        hi
+                        <span>11:04 AM</span> 
+                    </p> 
+                </div>
+                <div class="sender">
+                    <p class="text">
+                        hello
+                        <span>11:04 AM</span>
+                    </p>                    
+                </div>
+                <div class="day">
+                    <p>wednesday</p>
+                </div>
+                <div class="receiver">
+                    <p class="text">
+                        hi
+                        <span>11:04 AM</span> 
+                    </p> 
+                </div>
+                <div class="sender">
+                    <p class="text">
+                        hello
+                        <span>11:04 AM</span>
+                    </p>                    
+                </div>
+            </main>
+            <footer class="chat-sub">
+                <button type="button" id="attachBtn"><i class="fas fa-paperclip"></i></button>
+                <div class="sub-cont">
+                    <textarea name="msg" placeholder="Send a message..." id="msg" cols="30" rows="1"></textarea>
+                </div>
+                <button type="button" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
+            </footer>
+        </div>
+    </div>
+    
+    <script src="jquery-3.7.1.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
